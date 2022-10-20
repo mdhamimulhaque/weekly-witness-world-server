@@ -5,15 +5,33 @@ const cors = require('cors')
 
 app.use(cors())
 
-const categories = require("./data/categories.json")
+const categories = require("./data/categories.json");
+const news = require('./data/news.json');
 
 app.get('/', (req, res) => {
     res.send("hii ... i am ok")
 })
 
+// ---> categories
 app.get('/categories', (req, res) => {
     res.send(categories)
 })
+
+// ---> single news
+app.get('/news/:id', (req, res) => {
+    const id = req.params.id;
+    const selectedNews = news.find(nw => nw._id === id);
+    res.send(selectedNews)
+})
+
+// ---> category
+app.get('/category/:id', (req, res) => {
+    const id = req.params.id;
+    const category_news = news.filter(nw => nw.category_id === id);
+    res.send(category_news)
+})
+
+
 
 
 app.listen(port, () => {
